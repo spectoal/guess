@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+    <meta charset="utf-8">
+
+    <title>NUMBER GUESSING GAME</title>
+
+    <style>
+        html{
+            font-family : sans-serif;
+        }
+
+        body {
+            width: 50%;
+            max-width: 800px;
+            min-width: 480px;
+            margin: 0 auto;
+        }
+
+        .form input[type="number"] {
+            width: 200px;
+        }
+
+        .lastResult {
+            color: white;
+            padding: 3px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>NUMBER GUESSING GAME</h1>
+
+<p>a number 1-100 was selected, try and guess it in 10 turns or fewer, we will tell you if it is too HIGH or too LOW</p>
+
+<div class="form">
+    <label for="guessField"> ENTER YOUR GUESS: </label>
+    <input type="number" min="1" max="100" required id="guessField" class="guessField">
+    <input type="submit" value="submit guess" class="guessSubmit">
+</div>
+
+<div class="resultParas">
+    <p class="guesses"></p>
+    <p class="lastResult"></p>
+    <p class="lowOrHi"></p>
+</div>
+
+<script>
+
+    // JavaScript here
+
+
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+    const guesses = document.querySelector(".guesses");
+    const lastResult = document.querySelector(".lastResult");
+    const lowOrHi = document.querySelector(".lowOrHi");
+
+    const guessSubmit = document.querySelector(".guessSubmit");
+    const guessField = document.querySelector(".guessField");
+
+    let guessCount = 1;
+    let resetButton;
+
+
+    function checkGuess() {
+        const userGuess = Number(guessField.value);
+        if (guessCount === 1) {
+            guesses.textContent = "Prev guesses: ";
+        }
+
+        guesses.textContent = `${guesses.textContent} ${userGuess}`;
+        
+        if (userGuess === randomNumber) {
+            lastResult.textContent = "CONGTATS! you got it right";
+            lastResult.style.backgroundColor = "green";
+            lowOrHi.textContent = "";
+            setGameOver();
+        } else if (guessCount === 10) {
+            lastResult.textContent = "!!GAME OVER!!";
+            lowOrHi.textContent = "";
+            setGameOver();
+        } else {
+            lastResult.textContent = "WRONG!";
+            lastResult.style.backgroundColor = "red";
+
+            if (userGuess < randomNumber) {
+                lowOrHi.textContent = "last guess was too LOW!";
+            } else if (userGuess > randomNumber) {
+                lowOrHi.textContent = "last guess was too HIGH!";
+            }
+        }
+
+        guessCount++;
+        guessField.value = "";
+        guessField.focus();
+
+    }
+
+    guessSubmit.addEventListener("click", chechGuess);
+
+
+</script>
+</body>
+</html>
